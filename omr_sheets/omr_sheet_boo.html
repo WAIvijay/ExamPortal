@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>OMR Sheet</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, sans-serif; background: white; width: 794px; padding: 20px; }
+h1 { text-align: center; font-size: 15px; margin-bottom: 2px; }
+h2 { text-align: center; font-size: 12px; font-weight: normal; border-bottom: 2px solid #000; padding-bottom: 6px; margin-bottom: 10px; }
+
+/* FIDUCIAL MARKERS — black squares at exact corners for alignment */
+.marker { position: fixed; width: 20px; height: 20px; background: #000; }
+.marker.tl { top: 20px; left: 20px; }
+.marker.tr { top: 20px; right: 20px; }
+.marker.bl { bottom: 20px; left: 20px; }
+.marker.br { bottom: 20px; right: 20px; }
+
+.info-table { width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 12px; }
+.info-table td { border: 1px solid #000; padding: 5px 8px; }
+.info-table .label { font-weight: bold; width: 80px; background: #f0f0f0; }
+.info-table .value { width: 200px; }
+
+.version-row { display: flex; align-items: center; gap: 16px; margin-bottom: 10px; font-size: 13px; font-weight: bold; }
+.ver-bubble { width: 26px; height: 26px; border-radius: 50%; border: 2px solid #000; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; }
+.ver-bubble.filled { background: #000; color: #fff; }
+
+/* ANSWER GRID — fixed layout for accurate scanning */
+.answer-section { margin-top: 8px; }
+.answer-section h3 { font-size: 12px; margin-bottom: 6px; border-bottom: 1px solid #ccc; padding-bottom: 4px; }
+.answer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; }
+.q-row { display: flex; align-items: center; gap: 6px; padding: 2px 4px; border: 1px solid #ddd; border-radius: 3px; }
+.q-num { font-size: 11px; font-weight: bold; width: 20px; color: #333; text-align: right; }
+.bubble { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid #000; display: inline-flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; color: #555; }
+.bubble.filled { background: #000; color: #fff; border-color: #000; }
+.opt-label { font-size: 9px; color: #888; margin-right: 1px; }
+
+@media print { .marker { position: fixed; } button { display: none; } }
+</style>
+</head>
+<body>
+
+<!-- Fiducial alignment markers -->
+<div class="marker tl"></div>
+<div class="marker tr"></div>
+<div class="marker bl"></div>
+<div class="marker br"></div>
+
+<h1>SRI C.M NAGARAJ FOUNDATION TRUST</h1>
+<h2>East West Polytechnic Diploma Entrance Examination 2025 — OMR Answer Sheet</h2>
+
+<!-- Student Info Table -->
+<table class="info-table">
+  <tr>
+    <td class="label">NAME</td>
+    <td class="value"><strong>Boo</strong></td>
+    <td class="label">PHONE</td>
+    <td class="value"><strong>6363482309</strong></td>
+  </tr>
+  <tr>
+    <td class="label">SCHOOL</td>
+    <td colspan="3" class="value"><strong>Govt High School, Tumkur</strong></td>
+  </tr>
+</table>
+
+<!-- Version Selection -->
+<div class="version-row">
+  Paper Version:
+  <span><div class="ver-bubble">A</div> A</span>
+  <span><div class="ver-bubble">B</div> B</span>
+  <span><div class="ver-bubble filled">C</div> C ✓</span>
+  <span><div class="ver-bubble">D</div> D</span>
+</div>
+
+<!-- Answer Bubbles — Version C answers -->
+<div class="answer-section">
+  <h3>Answers — Fill the correct bubble completely</h3>
+  <div class="answer-grid" id="grid"></div>
+</div>
+
+<script>
+// Version C answer key: C,D,A,B,C,D,A,B,C,D,A,B,C,D,A,B,C,D,A,B,C,D,A,B,C,D,A,B,C,D
+const answers = ["C","D","A","B","C","D","A","B","C","D","A","B","C","D","A","B","C","D","A","B","C","D","A","B","C","D","A","B","C","D"];
+const opts = ["A","B","C","D"];
+const grid = document.getElementById("grid");
+for (let i = 0; i < 30; i++) {
+  const row = document.createElement("div");
+  row.className = "q-row";
+  row.innerHTML = `<span class="q-num">${i+1}</span>` +
+    opts.map(o => `<span class="opt-label">${o}</span><div class="bubble${answers[i]===o?' filled':''}">${o}</div>`).join('');
+  grid.appendChild(row);
+}
+</script>
+
+<br>
+<button onclick="window.print()" style="margin-top:12px;padding:8px 20px;background:#0f2744;color:white;border:none;border-radius:4px;cursor:pointer;font-size:13px;">🖨️ Print / Save as PDF</button>
+
+</body>
+</html>

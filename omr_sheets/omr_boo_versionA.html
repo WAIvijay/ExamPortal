@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>OMR Sheet - Boo - Version A</title>
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, sans-serif; background: white; width: 794px; margin: 0 auto; padding: 24px; }
+h1 { text-align: center; font-size: 16px; margin-bottom: 3px; }
+h2 { text-align: center; font-size: 12px; font-weight: normal; border-bottom: 2px solid #000; padding-bottom: 6px; margin-bottom: 12px; }
+.top-row { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 12px; }
+.info-table { flex: 1; border-collapse: collapse; font-size: 13px; }
+.info-table td { border: 2px solid #000; padding: 6px 10px; }
+.info-table .label { font-weight: bold; background: #eee; width: 90px; }
+.qr-box { border: 2px solid #000; padding: 6px; text-align: center; }
+.qr-box p { font-size: 9px; margin-top: 4px; color: #333; }
+.version-row { display: flex; align-items: center; gap: 20px; margin-bottom: 12px; font-size: 13px; font-weight: bold; border: 2px solid #000; padding: 8px 12px; }
+.ver-bubble { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #000; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; }
+.ver-bubble.filled { background: #000; color: #fff; }
+.answer-section h3 { font-size: 12px; font-weight: bold; margin-bottom: 6px; background: #eee; padding: 4px 8px; border: 1px solid #000; }
+.answer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+.q-row { display: flex; align-items: center; gap: 5px; padding: 3px 6px; border: 1px solid #ccc; }
+.q-num { font-size: 11px; font-weight: bold; width: 22px; text-align: right; color: #333; }
+.bub-wrap { display: flex; align-items: center; gap: 2px; }
+.opt-lbl { font-size: 9px; color: #666; }
+.bubble { width: 22px; height: 22px; border-radius: 50%; border: 2px solid #000; display: inline-flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; color: #555; }
+.bubble.filled { background: #000; color: #fff; border-color: #000; }
+@media print { button { display: none; } body { padding: 12px; } }
+</style>
+</head>
+<body>
+
+<h1>SRI C.M NAGARAJ FOUNDATION TRUST</h1>
+<h2>East West Polytechnic Diploma Entrance Examination 2025 — OMR Answer Sheet</h2>
+
+<div class="top-row">
+  <table class="info-table">
+    <tr>
+      <td class="label">NAME</td>
+      <td><strong>Boo</strong></td>
+    </tr>
+    <tr>
+      <td class="label">PHONE</td>
+      <td><strong>6363482309</strong></td>
+    </tr>
+    <tr>
+      <td class="label">SCHOOL</td>
+      <td><strong>Govt High School, Tumkur</strong></td>
+    </tr>
+  </table>
+  <div class="qr-box">
+    <canvas id="qrcode"></canvas>
+    <p>Scan QR for<br>auto-fill</p>
+  </div>
+</div>
+
+<div class="version-row">
+  PAPER VERSION:
+  <span class="ver-bubble filled">A</span> A &nbsp;
+  <span class="ver-bubble">B</span> B &nbsp;
+  <span class="ver-bubble">C</span> C &nbsp;
+  <span class="ver-bubble">D</span> D
+</div>
+
+<div class="answer-section">
+  <h3>ANSWERS — Version A</h3>
+  <div class="answer-grid" id="grid"></div>
+</div>
+
+<script>
+// Generate QR code with student info
+const studentInfo = JSON.stringify({
+  name: "Boo",
+  phone: "6363482309",
+  school: "Govt High School, Tumkur",
+  version: "A"
+});
+QRCode.toCanvas(document.getElementById('qrcode'), studentInfo, { width: 100, margin: 1 });
+
+// Version A answer key — East West Polytechnic Entrance Exam 2026 (Official)
+const key = ["D","B","C","A","C","A","B","C","B","A","B","B","A","A","D","C","A","B","C","A","B","A","D","C","D","A","A","D","B","A"];
+const opts = ["A","B","C","D"];
+const grid = document.getElementById("grid");
+for (let i = 0; i < 30; i++) {
+  const row = document.createElement("div");
+  row.className = "q-row";
+  let html = `<span class="q-num">${i+1}</span><div class="bub-wrap">`;
+  opts.forEach(o => {
+    html += `<span class="opt-lbl">${o}</span><div class="bubble${key[i]===o?' filled':''}">${o}</div>`;
+  });
+  html += '</div>';
+  row.innerHTML = html;
+  grid.appendChild(row);
+}
+</script>
+
+<br>
+<button onclick="window.print()" style="margin-top:14px;padding:10px 24px;background:#0f2744;color:white;border:none;border-radius:6px;cursor:pointer;font-size:14px;">🖨️ Print / Save as PDF</button>
+<p style="margin-top:8px;font-size:11px;color:#666;">Print this sheet → scan/photo → upload in Admin portal. QR code auto-fills name, phone, school, version.</p>
+
+</body>
+</html>
