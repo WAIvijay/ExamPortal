@@ -10,8 +10,11 @@ except Exception:
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-jbs=euehed(-vabg%u_3ll4+#9!yeb_)=37#!nluwe^dr+8l8('
-DEBUG = True
+SECRET_KEY = os.environ.get(
+    'DJANGO_SECRET_KEY',
+    'django-insecure-jbs=euehed(-vabg%u_3ll4+#9!yeb_)=37#!nluwe^dr+8l8(',
+)
+DEBUG = os.environ.get('DJANGO_DEBUG', 'True').lower() in ('1', 'true', 'yes')
 ALLOWED_HOSTS = ['*', 'localhost', '127.0.0.1']
 
 INSTALLED_APPS = [

@@ -8,7 +8,10 @@ frontend/node_modules/
 .eggs/
 venv/
 .env
-.env.*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
 # Django local DB (do not commit)
 **/db.sqlite3

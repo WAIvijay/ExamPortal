@@ -13,6 +13,9 @@ FL.rel = "stylesheet";
 FL.href = "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap";
 document.head.appendChild(FL);
 
+/* ─── API ─────────────────────────────────────────────────────────────── */
+const API_BASE = (process.env.REACT_APP_API_URL || "http://127.0.0.1:8000").replace(/\/$/, "");
+
 /* ─── CONSTANTS ──────────────────────────────────────────────────────── */
 const N_Q = 30;
 const PASSWORDS = { staff:"staff123", principal:"principal123", admin:"admin123" };
@@ -510,7 +513,7 @@ function BulkUpload({ students, setStudents }) {
       const reader = new FileReader();
       reader.onload = async ev => {
         const b64 = ev.target.result.split(',')[1];
-        const resp = await fetch('http://127.0.0.1:8000/api/scan-bulk/', {
+        const resp = await fetch(`${API_BASE}/api/scan-bulk/`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ pdf_base64: b64 }),
@@ -521,7 +524,7 @@ function BulkUpload({ students, setStudents }) {
           setResults(data);
           setMsg(`✅ Done: ${data.saved} saved, ${data.skipped} skipped, ${data.errors} errors`);
           // Refresh students list
-          const sResp = await fetch('http://127.0.0.1:8000/api/students/');
+          const sResp = await fetch(`${API_BASE}/api/students/`);
           const sData = await sResp.json();
           setStudents(sData.map((s,i) => ({...s, rank: i+1})));
         }
@@ -618,7 +621,7 @@ function OMRUpload({ students, setStudents, answerKeys }) {
     setScanning(true); setScanMsg("");
     try {
       const base64 = preview.split(",")[1];
-      const resp = await fetch("http://127.0.0.1:8000/api/scan-omr/", {
+      const resp = await fetch(`${API_BASE}/api/scan-omr/`, {
         method:"POST", headers:{"Content-Type":"application/json"},
         body: JSON.stringify({ image_base64:base64, media_type:file.type })
       });
@@ -652,7 +655,7 @@ function OMRUpload({ students, setStudents, answerKeys }) {
     const score = (answerKeys[form.version]||[]).reduce((s,k,i) => s+(form.answers[i]===k?1:0), 0);
     const body = { ...form, score, rank:0 };
     try {
-      const resp = await fetch("http://127.0.0.1:8000/api/add/", {
+      const resp = await fetch(`${API_BASE}/api/add/`, {
         method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(body)
       });
       const text = await resp.text();
@@ -1244,7 +1247,7 @@ export default function App() {
 
   // Fetch from backend on load
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/students/")
+    fetch(`${API_BASE}/api/students/`)
       .then(r => r.json())
       .then(data => { if (data && data.length > 0) setStudents(data); })
       .catch(() => {});
