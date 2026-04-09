@@ -19,7 +19,6 @@ OMR bubble detection uses **OpenCV** (included via `requirements.txt`). There is
 backend/exam_portal/   Django project (manage.py, api/, .env)
 frontend/              React app (CRA)
 omr_sheets/            Printable HTML OMR templates
-scripts/               PowerShell helpers (Windows)
 ```
 
 ## Quick start (Windows)
@@ -27,23 +26,20 @@ scripts/               PowerShell helpers (Windows)
 **Terminal 1 — backend**
 
 ```powershell
-cd path\to\ExamPortal
-.\scripts\start-backend.ps1
-```
-
-First time: copy env template and add your API key:
-
-```powershell
-cd backend\exam_portal
+cd path\to\ExamPortal\backend\exam_portal
 copy .env.example .env
 # Edit .env — set GEMINI_API_KEY=...
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
 ```
 
 **Terminal 2 — frontend**
 
 ```powershell
-cd path\to\ExamPortal
-.\scripts\start-frontend.ps1
+cd path\to\ExamPortal\frontend
+npm install
+npm start
 ```
 
 Optional — copy `frontend/.env.example` to `frontend/.env.local` if the API is not on `http://127.0.0.1:8000`:
