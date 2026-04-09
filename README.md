@@ -63,14 +63,13 @@ copy .env.example .env.local
 
 ```bash
 cd backend/exam_portal
-python -m venv venv
-# Windows: venv\Scripts\activate
-# Linux/macOS: source venv/bin/activate
 pip install -r requirements.txt
-cp .env.example .env   # edit GEMINI_API_KEY
+cp .env.example .env   # edit GEMINI_API_KEY  (Windows: copy .env.example .env)
 python manage.py migrate
 python manage.py runserver
 ```
+
+(Optional: use a virtual environment if you prefer; `venv/` is gitignored.)
 
 Optional sample data + Django users:
 

@@ -1,13 +1,9 @@
 # Run from project root:  .\scripts\start-backend.ps1
+# Uses system Python (no venv).
 $ErrorActionPreference = "Stop"
 $root = Split-Path -Parent $PSScriptRoot
 Set-Location (Join-Path $root "backend\exam_portal")
 
-if (-not (Test-Path "venv")) {
-    Write-Host "Creating Python venv..."
-    python -m venv venv
-}
-& .\venv\Scripts\Activate.ps1
 Write-Host "Installing dependencies..."
 pip install -r requirements.txt -q
 Write-Host "Running migrations..."
